@@ -17,12 +17,13 @@ const apiConstants = {
 
 class Home extends Component {
   state = {
+    apiStatus: apiConstants.initial,
     entriesData: [],
+    searchInput: "",
     itemsRange: 9,
     startItemNumber: 0,
     endItemNumber: 9,
     currentPageNumber: 1,
-    apiStatus: apiConstants.initial,
   };
 
   componentDidMount() {
@@ -48,12 +49,6 @@ class Home extends Component {
     }
   };
 
-  renderLoader = () => (
-    <div className="loader-container">
-      <Loader type="TailSpin" color="#000000" height={80} width={80} />
-    </div>
-  );
-
   displayPreviousPage = () => {
     const { currentPageNumber, itemsRange } = this.state;
     if (currentPageNumber > 1) {
@@ -78,8 +73,20 @@ class Home extends Component {
     }
   };
 
+  onChangeSearchInput = (event) => {
+    this.setState({ searchInput: event.target.value });
+  };
+
+  renderLoader = () => (
+    <div className="loader-container">
+      <Loader type="TailSpin" color="#000000" height={80} width={80} />
+    </div>
+  );
+
   renderPaginationContainer = () => {
-    const { currentPageNumber } = this.state;
+    const { entriesData, itemsRange, currentPageNumber } = this.state;
+    const entriesDataLength = entriesData.length;
+    const totalPagesNumber = Math.ceil(entriesDataLength / itemsRange);
     return (
       <div className="home-pagination-buttons-container">
         <button
@@ -89,7 +96,7 @@ class Home extends Component {
         >
           <BsArrowLeftCircle size="30px" />
         </button>
-        <p className="current-page-number">{currentPageNumber}</p>
+        <p className="current-page-number">{`Page ${currentPageNumber} Of ${totalPagesNumber} Pages`}</p>
         <button
           className="pagination-button"
           type="button"
@@ -102,7 +109,13 @@ class Home extends Component {
   };
 
   renderEntriesList = () => {
-    const { entriesData, startItemNumber, endItemNumber } = this.state;
+    const {
+      entriesData,
+      startItemNumber,
+      endItemNumber,
+      searchInput,
+    } = this.state;
+    console.log(searchInput);
     const thisPageList = entriesData.slice(startItemNumber, endItemNumber);
     return (
       <div className="entries-list-container">
@@ -154,6 +167,7 @@ class Home extends Component {
             className="home-search-input"
             placeholder="Search by name email or role"
             type="text"
+            onChange={this.onChangeSearchInput}
           />
           {this.renderEntriesListContainer()}
         </div>
