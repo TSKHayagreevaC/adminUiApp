@@ -1,0 +1,33 @@
+.entries-list-item {
+  width: 100%;
+}
+
+.list-item-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-item-text {
+  width: 20%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3px;
+}
+
+.entry-delete-button {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.list-item-icons {
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
