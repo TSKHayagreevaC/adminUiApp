@@ -4,10 +4,26 @@
 
 .list-item-container {
   width: 100%;
+  height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item-container {
+    flex-direction: row;
+    height: 50px;
+  }
+}
+
+.selected-entry-background-color {
+  background-color: #cee5d0;
+}
+
+.unselected-entry-background-color {
+  background-color: transparent;
 }
 
 .list-item-text {
@@ -15,6 +31,14 @@
   display: flex;
   flex-wrap: wrap;
   margin: 3px;
+  text-align: left;
+  overflow: scroll;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item-text {
+    overflow: initial;
+  }
 }
 
 .entry-delete-button {
@@ -30,4 +54,8 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+
+.entry-item-bottom-line {
+  margin: 0px;
 }

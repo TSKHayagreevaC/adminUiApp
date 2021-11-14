@@ -19,10 +19,12 @@ class Home extends Component {
   state = {
     apiStatus: apiConstants.initial,
     entriesData: [],
+    searchedDisplayEntries: [],
+    selectedEntries: [],
     searchInput: "",
-    itemsRange: 9,
+    itemsRange: 10,
     startItemNumber: 0,
-    endItemNumber: 9,
+    endItemNumber: 10,
     currentPageNumber: 1,
   };
 
@@ -61,10 +63,24 @@ class Home extends Component {
   };
 
   displayNextPage = () => {
-    const { entriesData, itemsRange, currentPageNumber } = this.state;
-    const entriesDataLength = entriesData.length;
-    const totalPagesNumber = entriesDataLength / itemsRange;
-    if (currentPageNumber < totalPagesNumber) {
+    const {
+      entriesData,
+      searchedDisplayEntries,
+      searchInput,
+      itemsRange,
+      currentPageNumber,
+    } = this.state;
+    const isUserSearching = searchInput.length !== 0;
+    const entriesListToBePaginated = isUserSearching
+      ? searchedDisplayEntries
+      : entriesData;
+    const entriesDataLength = entriesListToBePaginated.length;
+    const totalPagesNumber = Math.ceil(entriesDataLength / itemsRange);
+    let totalPagesNumberToBeDisplayed = 1;
+    if (totalPagesNumber !== 0) {
+      totalPagesNumberToBeDisplayed = totalPagesNumber;
+    }
+    if (currentPageNumber < totalPagesNumberToBeDisplayed) {
       this.setState((prevState) => ({
         startItemNumber: prevState.startItemNumber + itemsRange,
         endItemNumber: prevState.endItemNumber + itemsRange,
@@ -74,7 +90,71 @@ class Home extends Component {
   };
 
   onChangeSearchInput = (event) => {
-    this.setState({ searchInput: event.target.value });
+    const { entriesData } = this.state;
+    const searchedEntriesData = [];
+    entriesData.map((eachItem) => {
+      if (
+        eachItem.name.toLowerCase().includes(event.target.value) ||
+        eachItem.email.toLowerCase().includes(event.target.value) ||
+        eachItem.role.toLowerCase().includes(event.target.value)
+      ) {
+        searchedEntriesData.push(eachItem);
+      }
+      return null;
+    });
+    this.setState({
+      searchInput: event.target.value,
+      searchedDisplayEntries: searchedEntriesData,
+    });
+  };
+
+  deleteEntry = (id) => {
+    const { entriesData, searchedDisplayEntries } = this.state;
+    const filteredEntriesData = entriesData.filter(
+      (eachItem) => eachItem.id !== id
+    );
+    const filteredSearchedDisplayEntries = searchedDisplayEntries.filter(
+      (eachItem) => eachItem.id !== id
+    );
+    this.setState({
+      entriesData: filteredEntriesData,
+      searchedDisplayEntries: filteredSearchedDisplayEntries,
+    });
+  };
+
+  selectEntry = (selectedEntry) => {
+    this.setState((prevState) => ({
+      selectedEntries: [...prevState.selectedEntries, selectedEntry],
+    }));
+  };
+
+  unselectEntry = (id) => {
+    const { selectedEntries } = this.state;
+    const updatedSelectedEntries = selectedEntries.filter(
+      (eachItem) => eachItem.id !== id
+    );
+    this.setState({ selectedEntries: updatedSelectedEntries });
+  };
+
+  deleteSelectedItems = () => {
+    console.log("selected items need to be deleted");
+    const { entriesData, searchedDisplayEntries, selectedEntries } = this.state;
+    const pseudoEntriesData = entriesData;
+    selectedEntries.map((eachItem) => {
+      const index = pseudoEntriesData.indexOf(eachItem);
+      pseudoEntriesData.splice(index, 1);
+      return null;
+    });
+    const pseudoSearchDisplayEntries = searchedDisplayEntries;
+    selectedEntries.map((eachItem) => {
+      const index = pseudoSearchDisplayEntries.indexOf(eachItem);
+      pseudoSearchDisplayEntries.splice(index, 1);
+      return null;
+    });
+    this.setState({
+      entriesData: pseudoEntriesData,
+      searchedDisplayEntries: pseudoSearchDisplayEntries,
+    });
   };
 
   renderLoader = () => (
@@ -84,9 +164,23 @@ class Home extends Component {
   );
 
   renderPaginationContainer = () => {
-    const { entriesData, itemsRange, currentPageNumber } = this.state;
-    const entriesDataLength = entriesData.length;
+    const {
+      entriesData,
+      searchedDisplayEntries,
+      searchInput,
+      itemsRange,
+      currentPageNumber,
+    } = this.state;
+    const isUserSearching = searchInput.length !== 0;
+    const entriesListToBePaginated = isUserSearching
+      ? searchedDisplayEntries
+      : entriesData;
+    const entriesDataLength = entriesListToBePaginated.length;
     const totalPagesNumber = Math.ceil(entriesDataLength / itemsRange);
+    let totalPagesNumberToBeDisplayed = 1;
+    if (totalPagesNumber !== 0) {
+      totalPagesNumberToBeDisplayed = totalPagesNumber;
+    }
     return (
       <div className="home-pagination-buttons-container">
         <button
@@ -96,7 +190,7 @@ class Home extends Component {
         >
           <BsArrowLeftCircle size="30px" />
         </button>
-        <p className="current-page-number">{`Page ${currentPageNumber} Of ${totalPagesNumber} Pages`}</p>
+        <p className="current-page-number">{`Page ${currentPageNumber} Of ${totalPagesNumberToBeDisplayed} Pages`}</p>
         <button
           className="pagination-button"
           type="button"
@@ -111,12 +205,21 @@ class Home extends Component {
   renderEntriesList = () => {
     const {
       entriesData,
+      searchedDisplayEntries,
+      searchInput,
+      selectedEntries,
       startItemNumber,
       endItemNumber,
-      searchInput,
     } = this.state;
-    console.log(searchInput);
-    const thisPageList = entriesData.slice(startItemNumber, endItemNumber);
+    const isUserSearching = searchInput.length !== 0;
+    const entiresToBeDisplayed = isUserSearching
+      ? searchedDisplayEntries
+      : entriesData;
+    const isSearchInputValid = entiresToBeDisplayed.length !== 0;
+    const thisPageList = entiresToBeDisplayed.slice(
+      startItemNumber,
+      endItemNumber
+    );
     return (
       <div className="entries-list-container">
         <div className="entries-list-headings-container">
@@ -128,19 +231,42 @@ class Home extends Component {
         </div>
         <hr className="entry-head-bottom-line" />
         <ul className="home-entries-list">
-          {thisPageList.map((eachItem) => (
-            <EntriesListItem key={eachItem.id} eachEntry={eachItem} />
-          ))}
+          {isSearchInputValid ? (
+            thisPageList.map((eachItem) => (
+              <EntriesListItem
+                key={eachItem.id}
+                eachEntry={eachItem}
+                deleteEntry={this.deleteEntry}
+                selectEntry={this.selectEntry}
+                unselectEntry={this.unselectEntry}
+                selectedEntries={selectedEntries}
+              />
+            ))
+          ) : (
+            <h1 className="empty-entries-message-heading">
+              No Entry Is There To Display...
+            </h1>
+          )}
         </ul>
+        <div className="entries-delete-button-pagination-container">
+          <button
+            className="delete-selected-items-button"
+            type="button"
+            onClick={this.deleteSelectedItems}
+          >
+            Delete Selected
+          </button>
+          {this.renderPaginationContainer()}
+        </div>
       </div>
     );
   };
 
   renderFailureView = () => (
     <div className="api-failure-view-container">
-      <CgDanger size="40px" />
+      <CgDanger size="60px" />
       <h1 className="api-failure-heading">Network Error</h1>
-      <p className="api-failure-text">We Are Sorry For The Inconvenience...</p>
+      <p className="api-failure-text">Sorry For The Inconvenience...</p>
     </div>
   );
 
@@ -171,7 +297,6 @@ class Home extends Component {
           />
           {this.renderEntriesListContainer()}
         </div>
-        {this.renderPaginationContainer()}
       </div>
     );
   }
