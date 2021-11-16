@@ -26,6 +26,7 @@ class Home extends Component {
     startItemNumber: 0,
     endItemNumber: 10,
     currentPageNumber: 1,
+    headInputCheckedStatus: false,
   };
 
   componentDidMount() {
@@ -58,6 +59,7 @@ class Home extends Component {
         startItemNumber: prevState.startItemNumber - itemsRange,
         endItemNumber: prevState.endItemNumber - itemsRange,
         currentPageNumber: prevState.currentPageNumber - 1,
+        headInputCheckedStatus: false,
       }));
     }
   };
@@ -85,6 +87,7 @@ class Home extends Component {
         startItemNumber: prevState.startItemNumber + itemsRange,
         endItemNumber: prevState.endItemNumber + itemsRange,
         currentPageNumber: prevState.currentPageNumber + 1,
+        headInputCheckedStatus: false,
       }));
     }
   };
@@ -137,7 +140,6 @@ class Home extends Component {
   };
 
   deleteSelectedItems = () => {
-    console.log("selected items need to be deleted");
     const { entriesData, searchedDisplayEntries, selectedEntries } = this.state;
     const pseudoEntriesData = entriesData;
     selectedEntries.map((eachItem) => {
@@ -154,6 +156,66 @@ class Home extends Component {
     this.setState({
       entriesData: pseudoEntriesData,
       searchedDisplayEntries: pseudoSearchDisplayEntries,
+      selectedEntries: [],
+      headInputCheckedStatus: false,
+    });
+  };
+
+  onCheckHeadInput = (event) => {
+    const {
+      searchInput,
+      entriesData,
+      searchedDisplayEntries,
+      selectedEntries,
+      startItemNumber,
+      endItemNumber,
+    } = this.state;
+    const isHeadInputChecked = event.target.checked;
+    const isUserSearching = searchInput.length !== 0;
+    const entiresToBeDisplayed = isUserSearching
+      ? searchedDisplayEntries
+      : entriesData;
+    const thisPageList = entiresToBeDisplayed.slice(
+      startItemNumber,
+      endItemNumber
+    );
+    if (isHeadInputChecked) {
+      this.setState((prevState) => ({
+        selectedEntries: [...prevState.selectedEntries, ...thisPageList],
+        headInputCheckedStatus: true,
+      }));
+    } else {
+      const pseudoSelectedEntriesList = selectedEntries;
+      let updatedPseudoSelectedEntriesList = [];
+      pseudoSelectedEntriesList.map((eachItem) => {
+        const index = pseudoSelectedEntriesList.indexOf(eachItem);
+        updatedPseudoSelectedEntriesList = pseudoSelectedEntriesList.slice(
+          index,
+          1
+        );
+        return null;
+      });
+      this.setState({
+        selectedEntries: updatedPseudoSelectedEntriesList,
+        headInputCheckedStatus: false,
+      });
+    }
+  };
+
+  onUpdateEntryDetails = (existingEntry, updatedEntry) => {
+    const { entriesData, searchedDisplayEntries } = this.state;
+    const trialEntriesData = entriesData;
+    const entryIndex = trialEntriesData.indexOf(existingEntry);
+    trialEntriesData.splice(entryIndex, 1, updatedEntry);
+    const trialSearchedDisplayEntriesData = searchedDisplayEntries;
+    const searchedIndex = trialSearchedDisplayEntriesData.indexOf(
+      existingEntry
+    );
+    trialSearchedDisplayEntriesData.splice(searchedIndex, 1, updatedEntry);
+
+    this.setState({
+      entriesData: trialEntriesData,
+      searchedDisplayEntries: trialSearchedDisplayEntriesData,
     });
   };
 
@@ -210,6 +272,7 @@ class Home extends Component {
       selectedEntries,
       startItemNumber,
       endItemNumber,
+      headInputCheckedStatus,
     } = this.state;
     const isUserSearching = searchInput.length !== 0;
     const entiresToBeDisplayed = isUserSearching
@@ -223,7 +286,12 @@ class Home extends Component {
     return (
       <div className="entries-list-container">
         <div className="entries-list-headings-container">
-          <input type="checkbox" className="list-checkbox-input" />
+          <input
+            type="checkbox"
+            className="list-checkbox-input"
+            checked={headInputCheckedStatus}
+            onChange={this.onCheckHeadInput}
+          />
           <p className="list-heading-text">Name</p>
           <p className="list-heading-text">Email</p>
           <p className="list-heading-text">Role</p>
@@ -240,11 +308,13 @@ class Home extends Component {
                 selectEntry={this.selectEntry}
                 unselectEntry={this.unselectEntry}
                 selectedEntries={selectedEntries}
+                headInputCheckedStatus={headInputCheckedStatus}
+                onUpdateEntryDetails={this.onUpdateEntryDetails}
               />
             ))
           ) : (
             <h1 className="empty-entries-message-heading">
-              No Entry Is There To Display...
+              No Entry Is Left...
             </h1>
           )}
         </ul>

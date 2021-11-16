@@ -1,5 +1,7 @@
 .entries-list-item {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .list-item-container {
@@ -41,6 +43,13 @@
   }
 }
 
+.entry-edit-button {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+}
+
 .entry-delete-button {
   border: none;
   outline: none;
@@ -58,4 +67,94 @@
 
 .entry-item-bottom-line {
   margin: 0px;
+}
+
+.popup-content {
+  background: rgba(0, 0, 0, 0.5);
+  width: 240px;
+  padding: 5px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .popup-content {
+    width: 350px;
+  }
+}
+
+.entry-edit-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+}
+
+.update-entry-form-heading {
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+  margin: 10px 0px 10px 0px;
+  font-size: 24px;
+  text-align: center;
+  width: 100%;
+}
+
+.entry-edit-form-label {
+  color: #ffffff;
+  font-size: 18px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+}
+
+.entry-edit-form-input {
+  color: #000000;
+  font-size: 18px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+  width: 96%;
+  height: 25px;
+  margin: 0px 0px 10px 0px;
+  border-radius: 6px;
+  outline: none;
+  border: none;
+  padding: 5px;
+}
+
+.popup-buttons-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.update-entry-button {
+  background-color: #125c13;
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+  font-size: 18px;
+  height: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.popup-cancel-button {
+  background-color: #ff0000;
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+  font-size: 18px;
+  height: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 6px;
 }
