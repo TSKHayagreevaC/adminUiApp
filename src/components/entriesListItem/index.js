@@ -129,7 +129,7 @@ class EntriesListItem extends Component {
                       className="popup-cancel-button"
                       onClick={close}
                     >
-                      Cancel
+                      Close
                     </button>
                   </div>
                 </form>
