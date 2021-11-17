@@ -101,9 +101,13 @@ class Home extends Component {
     const searchedEntriesData = [];
     entriesData.map((eachItem) => {
       if (
-        eachItem.name.toLowerCase().includes(event.target.value) ||
-        eachItem.email.toLowerCase().includes(event.target.value) ||
-        eachItem.role.toLowerCase().includes(event.target.value)
+        eachItem.name
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase()) ||
+        eachItem.email
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase()) ||
+        eachItem.role.toLowerCase().includes(event.target.value.toLowerCase())
       ) {
         searchedEntriesData.push(eachItem);
       }
@@ -289,20 +293,14 @@ class Home extends Component {
       headInputCheckedStatus,
     } = this.state;
     const isUserSearching = searchInput.length !== 0;
-    const entiresToBeDisplayed = isUserSearching
+    const entriesToBeDisplayed = isUserSearching
       ? searchedDisplayEntries
       : entriesData;
-    const isSearchInputValid = entiresToBeDisplayed.length !== 0;
-    const thisPageList = entiresToBeDisplayed.slice(
-      startItemNumber,
-      endItemNumber
-    );
-    const isThisPageEmpty = thisPageList.length === 0;
-    if (isThisPageEmpty) {
-      alert(
-        "You Are Removing All The Entries Of This Page, This Page Is Going To Be Empty, Please Move To Previous Page..."
-      );
-    }
+    const isSearchInputValid = entriesToBeDisplayed.length !== 0;
+    const areEntriesMoreThanTen = entriesToBeDisplayed.length > 10;
+    const thisPageList = areEntriesMoreThanTen
+      ? entriesToBeDisplayed.slice(startItemNumber, endItemNumber)
+      : entriesToBeDisplayed;
     return (
       <div className="entries-list-container">
         <div className="entries-list-headings-container">
@@ -334,7 +332,7 @@ class Home extends Component {
             ))
           ) : (
             <h1 className="empty-entries-message-heading">
-              No Entry Is Left, Please Reload The Page...
+              No Entry Is Left...
             </h1>
           )}
         </ul>
