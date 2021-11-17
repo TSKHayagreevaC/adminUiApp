@@ -33,6 +33,7 @@ class Home extends Component {
     this.getEntriesDataFromApi();
   }
 
+  // Fetching Data
   getEntriesDataFromApi = async () => {
     this.setState({ apiStatus: apiConstants.inProgress });
     const dataUrl =
@@ -52,6 +53,7 @@ class Home extends Component {
     }
   };
 
+  // Pagination Previous Page Button
   displayPreviousPage = () => {
     const { currentPageNumber, itemsRange } = this.state;
     if (currentPageNumber > 1) {
@@ -64,6 +66,7 @@ class Home extends Component {
     }
   };
 
+  // Pagination Next Page Button
   displayNextPage = () => {
     const {
       entriesData,
@@ -92,6 +95,7 @@ class Home extends Component {
     }
   };
 
+  // Search Input
   onChangeSearchInput = (event) => {
     const { entriesData } = this.state;
     const searchedEntriesData = [];
@@ -111,6 +115,7 @@ class Home extends Component {
     });
   };
 
+  // Delete Single Entry From The Data On Click Delete Button
   deleteEntry = (id) => {
     const { entriesData, searchedDisplayEntries } = this.state;
     const filteredEntriesData = entriesData.filter(
@@ -125,12 +130,14 @@ class Home extends Component {
     });
   };
 
+  // Selecting Items
   selectEntry = (selectedEntry) => {
     this.setState((prevState) => ({
       selectedEntries: [...prevState.selectedEntries, selectedEntry],
     }));
   };
 
+  // Unselect The Item
   unselectEntry = (id) => {
     const { selectedEntries } = this.state;
     const updatedSelectedEntries = selectedEntries.filter(
@@ -139,7 +146,9 @@ class Home extends Component {
     this.setState({ selectedEntries: updatedSelectedEntries });
   };
 
+  // Delete Selected Items On Click Delete Items Button
   deleteSelectedItems = () => {
+    alert("Selected Entries Will Be Deleted From The Entries List...");
     const { entriesData, searchedDisplayEntries, selectedEntries } = this.state;
     const pseudoEntriesData = entriesData;
     selectedEntries.map((eachItem) => {
@@ -161,6 +170,7 @@ class Home extends Component {
     });
   };
 
+  // Select Group Of Entries From Head Input
   onCheckHeadInput = (event) => {
     const {
       searchInput,
@@ -202,6 +212,7 @@ class Home extends Component {
     }
   };
 
+  // Update The Entry Data Using The Edit Button
   onUpdateEntryDetails = (existingEntry, updatedEntry) => {
     const { entriesData, searchedDisplayEntries } = this.state;
     const trialEntriesData = entriesData;
@@ -219,12 +230,14 @@ class Home extends Component {
     });
   };
 
+  // Render Loader While Entries Data Is Being Fetched
   renderLoader = () => (
     <div className="loader-container">
       <Loader type="TailSpin" color="#000000" height={80} width={80} />
     </div>
   );
 
+  // Pagination Buttons And Content Container At The Bottom Of Each Page
   renderPaginationContainer = () => {
     const {
       entriesData,
@@ -264,6 +277,7 @@ class Home extends Component {
     );
   };
 
+  // Render Fetched Entries List
   renderEntriesList = () => {
     const {
       entriesData,
@@ -283,6 +297,12 @@ class Home extends Component {
       startItemNumber,
       endItemNumber
     );
+    const isThisPageEmpty = thisPageList.length === 0;
+    if (isThisPageEmpty) {
+      alert(
+        "You Are Removing All The Entries Of This Page, This Page Is Going To Be Empty, Please Move To Previous Page..."
+      );
+    }
     return (
       <div className="entries-list-container">
         <div className="entries-list-headings-container">
@@ -314,7 +334,7 @@ class Home extends Component {
             ))
           ) : (
             <h1 className="empty-entries-message-heading">
-              No Entry Is Left...
+              No Entry Is Left, Please Reload The Page...
             </h1>
           )}
         </ul>
@@ -332,6 +352,7 @@ class Home extends Component {
     );
   };
 
+  // Render Failure Container In Case Of Data Fetch Failure
   renderFailureView = () => (
     <div className="api-failure-view-container">
       <CgDanger size="60px" />
@@ -340,6 +361,7 @@ class Home extends Component {
     </div>
   );
 
+  // Render Entries List Container
   renderEntriesListContainer = () => {
     const { apiStatus } = this.state;
     switch (apiStatus) {
@@ -354,6 +376,7 @@ class Home extends Component {
     }
   };
 
+  // Render Entries List Page
   render() {
     return (
       <div className="home-bg-container">
