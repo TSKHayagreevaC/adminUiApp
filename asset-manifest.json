@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/adminUiApp/static/css/main.eedbc286.chunk.css",
-    "main.js": "/adminUiApp/static/js/main.2cbb928c.chunk.js",
-    "main.js.map": "/adminUiApp/static/js/main.2cbb928c.chunk.js.map",
+    "main.css": "/adminUiApp/static/css/main.8be97360.chunk.css",
+    "main.js": "/adminUiApp/static/js/main.d36fede5.chunk.js",
+    "main.js.map": "/adminUiApp/static/js/main.d36fede5.chunk.js.map",
     "runtime-main.js": "/adminUiApp/static/js/runtime-main.fd64cc2e.js",
     "runtime-main.js.map": "/adminUiApp/static/js/runtime-main.fd64cc2e.js.map",
     "static/js/2.de855608.chunk.js": "/adminUiApp/static/js/2.de855608.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.a4d0e668.chunk.js": "/adminUiApp/static/js/3.a4d0e668.chunk.js",
     "static/js/3.a4d0e668.chunk.js.map": "/adminUiApp/static/js/3.a4d0e668.chunk.js.map",
     "index.html": "/adminUiApp/index.html",
-    "static/css/main.eedbc286.chunk.css.map": "/adminUiApp/static/css/main.eedbc286.chunk.css.map",
+    "static/css/main.8be97360.chunk.css.map": "/adminUiApp/static/css/main.8be97360.chunk.css.map",
     "static/js/2.de855608.chunk.js.LICENSE.txt": "/adminUiApp/static/js/2.de855608.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.fd64cc2e.js",
     "static/js/2.de855608.chunk.js",
-    "static/css/main.eedbc286.chunk.css",
-    "static/js/main.2cbb928c.chunk.js"
+    "static/css/main.8be97360.chunk.css",
+    "static/js/main.d36fede5.chunk.js"
   ]
 }
