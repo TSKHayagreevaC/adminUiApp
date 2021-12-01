@@ -140,7 +140,7 @@ class EntriesListItem extends Component {
             onChange={this.onChangeCheckBox}
           />
           <p className="list-item-text">{eachEntry.name}</p>
-          <p className="list-item-text">{eachEntry.email}</p>
+          <p className="list-item-text list-email-item">{eachEntry.email}</p>
           <p className="list-item-text">{eachEntry.role}</p>
           <div className="list-item-icons">
             {this.renderPopup()}
@@ -153,6 +153,10 @@ class EntriesListItem extends Component {
             </button>
           </div>
         </div>
+        <p className="small-bottom-email">
+          Email:{" "}
+          <span className="small-bottom-email-span">{eachEntry.email}</span>
+        </p>
         <hr className="entry-item-bottom-line" />
       </li>
     );

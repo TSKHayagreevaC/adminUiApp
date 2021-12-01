@@ -6,18 +6,11 @@
 
 .list-item-container {
   width: 100%;
-  height: 60px;
+  min-height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-
-@media screen and (min-width: 768px) {
-  .list-item-container {
-    flex-direction: row;
-    height: 50px;
-  }
 }
 
 .list-item-checkbox-input {
@@ -36,17 +29,40 @@
 
 .list-item-text {
   width: 20%;
-  display: flex;
-  flex-wrap: wrap;
   margin: 3px;
   text-align: left;
-  overflow: scroll;
 }
 
 @media screen and (min-width: 768px) {
   .list-item-text {
-    overflow: initial;
+    width: 20%;
   }
+}
+
+.list-email-item {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .list-email-item {
+    display: block;
+  }
+}
+
+.small-bottom-email {
+  font-weight: bold;
+  margin: 3px 3px 3px 18%;
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .small-bottom-email {
+    display: none;
+  }
+}
+
+.small-bottom-email-span {
+  font-weight: normal;
 }
 
 .entry-edit-button {

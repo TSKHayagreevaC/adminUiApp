@@ -152,8 +152,18 @@ class Home extends Component {
 
   // Delete Selected Items On Click Delete Items Button
   deleteSelectedItems = () => {
-    alert("Selected Entries Will Be Deleted From The Entries List...");
     const { entriesData, searchedDisplayEntries, selectedEntries } = this.state;
+    if (selectedEntries.length === 0) {
+      alert(
+        "You Have Not Selected Any Entry...Please Select Entry/Entries Before You Delete Them..."
+      );
+    } else {
+      const selectedEntriesLength = selectedEntries.length;
+      const EntriesTextItem = selectedEntriesLength > 1 ? "Entries" : "Entry";
+      alert(
+        `Selected ${selectedEntries.length} ${EntriesTextItem} Will Be Deleted From The Entries List...`
+      );
+    }
     const pseudoEntriesData = entriesData;
     selectedEntries.map((eachItem) => {
       const index = pseudoEntriesData.indexOf(eachItem);
@@ -311,7 +321,7 @@ class Home extends Component {
             onChange={this.onCheckHeadInput}
           />
           <p className="list-heading-text">Name</p>
-          <p className="list-heading-text">Email</p>
+          <p className="list-heading-text list-email-title">Email</p>
           <p className="list-heading-text">Role</p>
           <p className="list-heading-text">Actions</p>
         </div>
