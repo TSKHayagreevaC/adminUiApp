@@ -10,6 +10,21 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item-container {
+    align-items: center;
+  }
+}
+
+.entry-edit-form {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -17,6 +32,20 @@
   height: 18px;
   width: 18px;
   cursor: pointer;
+  margin: 8px 3px 3px 3px;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item-checkbox-input {
+    margin: 3px;
+  }
+}
+
+.list-item-form-checkbox-input {
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+  margin: 3px;
 }
 
 .selected-entry-background-color {
@@ -27,42 +56,46 @@
   background-color: transparent;
 }
 
-.list-item-text {
+.list-item-text-name {
   width: 20%;
   margin: 3px;
+  font-size: 16px;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 @media screen and (min-width: 768px) {
-  .list-item-text {
+  .list-item-text-name {
     width: 20%;
   }
 }
 
-.list-email-item {
-  display: none;
+.list-item-text-email {
+  width: 20%;
+  margin: 3px;
+  font-size: 16px;
+  text-align: left;
+  overflow-wrap: break-word;
 }
 
 @media screen and (min-width: 768px) {
-  .list-email-item {
-    display: block;
+  .list-item-text-email {
+    width: 30%;
   }
 }
 
-.small-bottom-email {
-  font-weight: bold;
-  margin: 3px 3px 3px 18%;
-  display: block;
+.list-item-text-role {
+  width: 20%;
+  margin: 3px;
+  font-size: 16px;
+  text-align: left;
+  overflow-wrap: break-word;
 }
 
 @media screen and (min-width: 768px) {
-  .small-bottom-email {
-    display: none;
+  .list-item-text-role {
+    width: 10.5%;
   }
-}
-
-.small-bottom-email-span {
-  font-weight: normal;
 }
 
 .entry-edit-button {
@@ -81,6 +114,21 @@
 
 .list-item-icons {
   width: 20%;
+  margin: 8px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .list-item-icons {
+    margin: 0px;
+  }
+}
+
+.list-item-form-icons {
+  width: 20%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -92,93 +140,44 @@
   width: 100%;
 }
 
-.popup-content {
-  background: rgba(0, 0, 0, 0.5);
-  width: 240px;
-  padding: 5px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.entry-edit-form-input-name {
+  color: #000000;
+  background: transparent;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  width: 20%;
+  margin: 3px;
+}
+
+.entry-edit-form-input-email {
+  color: #000000;
+  background: transparent;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  width: 20%;
+  margin: 3px;
 }
 
 @media screen and (min-width: 768px) {
-  .popup-content {
-    width: 350px;
+  .entry-edit-form-input-email {
+    width: 30%;
   }
 }
 
-.entry-edit-form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 10px;
-}
-
-.update-entry-form-heading {
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 600;
-  margin: 10px 0px 10px 0px;
-  font-size: 24px;
-  text-align: center;
-  width: 100%;
-}
-
-.entry-edit-form-label {
-  color: #ffffff;
-  font-size: 18px;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 600;
-}
-
-.entry-edit-form-input {
+.entry-edit-form-input-role {
   color: #000000;
-  font-size: 18px;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 600;
-  width: 96%;
-  height: 25px;
-  margin: 0px 0px 10px 0px;
-  border-radius: 6px;
+  background: transparent;
+  font-size: 16px;
   outline: none;
   border: none;
-  padding: 5px;
-  cursor: pointer;
+  width: 20%;
+  margin: 3px;
 }
 
-.popup-buttons-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.update-entry-button {
-  background-color: #125c13;
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 600;
-  font-size: 18px;
-  height: 40px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.popup-cancel-button {
-  background-color: #ff0000;
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 600;
-  font-size: 18px;
-  height: 40px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 6px;
+@media screen and (min-width: 768px) {
+  .entry-edit-form-input-role {
+    width: 10%;
+  }
 }

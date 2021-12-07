@@ -320,10 +320,10 @@ class Home extends Component {
             checked={headInputCheckedStatus}
             onChange={this.onCheckHeadInput}
           />
-          <p className="list-heading-text">Name</p>
-          <p className="list-heading-text list-email-title">Email</p>
-          <p className="list-heading-text">Role</p>
-          <p className="list-heading-text">Actions</p>
+          <p className="list-heading-text-name">Name</p>
+          <p className="list-heading-text-email">Email</p>
+          <p className="list-heading-text-role">Role</p>
+          <p className="list-heading-text-actions">Actions</p>
         </div>
         <hr className="entry-head-bottom-line" />
         <ul className="home-entries-list">
@@ -342,7 +342,7 @@ class Home extends Component {
             ))
           ) : (
             <h1 className="empty-entries-message-heading">
-              No Entry Is Left...
+              No Entry Is Available...
             </h1>
           )}
         </ul>

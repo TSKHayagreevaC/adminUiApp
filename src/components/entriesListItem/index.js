@@ -1,79 +1,28 @@
 import { Component, React } from "react";
-import Popup from "reactjs-popup";
 
 import { MdDeleteOutline } from "react-icons/md";
 import { AiOutlineForm } from "react-icons/ai";
+import { FiUpload } from "react-icons/fi";
 
 import "./index.css";
 
 class EntriesListItem extends Component {
   state = {
+    editEntryDetails: false,
     id: "",
     updatedName: "",
     updatedEmail: "",
     updatedRole: "",
   };
 
-  // Render Form To Update Any Entry - As A popup
-  renderPopup = () => (
-    <Popup
-      className="popup-content"
-      position="left center"
-      trigger={
-        <button className="entry-edit-button" type="button">
-          <AiOutlineForm size="18px" />
-        </button>
-      }
-    >
-      {(close) => (
-        <form
-          onSubmit={this.onSubmitEditEntryForm}
-          className="entry-edit-form-container"
-        >
-          <h1 className="update-entry-form-heading">Enter Details Here</h1>
-          <label htmlFor="entryName" className="entry-edit-form-label">
-            NAME
-          </label>
-          <input
-            type="text"
-            id="entryName"
-            className="entry-edit-form-input"
-            onChange={this.onChangeEntryName}
-          />
-          <label htmlFor="entryEmail" className="entry-edit-form-label">
-            EMAIL
-          </label>
-          <input
-            type="email"
-            id="entryEmail"
-            className="entry-edit-form-input"
-            onChange={this.onChangeEntryEmail}
-          />
-          <label htmlFor="entryRole" className="entry-edit-form-label">
-            ROLE
-          </label>
-          <input
-            type="text"
-            id="entryRole"
-            className="entry-edit-form-input"
-            onChange={this.onChangeEntryRole}
-          />
-          <div className="popup-buttons-container">
-            <button type="submit" className="update-entry-button">
-              Update Entry
-            </button>
-            <button
-              type="button"
-              className="popup-cancel-button"
-              onClick={close}
-            >
-              Close
-            </button>
-          </div>
-        </form>
-      )}
-    </Popup>
-  );
+  // Function To Display Edit Entry Form, On Click Edit Entry Button...
+  onClickEditEntryButton = () => {
+    const { eachEntry } = this.props;
+    this.setState({ editEntryDetails: true });
+    alert(
+      `Click 'OK' Button To Edit The Entry With The Name '${eachEntry.name}'...`
+    );
+  };
 
   // Edit The Entry By User - Storing Input Values Into State
   onSubmitEditEntryForm = (event) => {
@@ -87,6 +36,8 @@ class EntriesListItem extends Component {
       role: updatedRole,
     };
     onUpdateEntryDetails(eachEntry, updatedEntryDetails);
+    this.setState({ editEntryDetails: false });
+    alert("Click 'OK' Button To Save The Changes...");
   };
 
   // Storing User Entered Name Into State
@@ -121,8 +72,71 @@ class EntriesListItem extends Component {
     }
   };
 
-  // Render Each Entry
-  render() {
+  // Render List Item With The Entry Details
+  renderEntryItemEditForm = () => {
+    const { eachEntry, selectedEntries } = this.props;
+    const isEntrySelected =
+      selectedEntries.find((eachItem) => eachItem.id === eachEntry.id) !==
+      undefined;
+    const entryBackgroundColor = isEntrySelected
+      ? "selected-entry-background-color"
+      : "unselected-entry-background-color";
+    return (
+      <li className="entry-list-item">
+        <form
+          onSubmit={this.onSubmitEditEntryForm}
+          className={`entry-edit-form ${entryBackgroundColor}`}
+        >
+          <input
+            type="checkbox"
+            className="list-item-form-checkbox-input"
+            checked={isEntrySelected}
+            onChange={this.onChangeCheckBox}
+          />
+          <input
+            required
+            type="text"
+            id="entryName"
+            className="entry-edit-form-input-name"
+            placeholder={eachEntry.name}
+            onChange={this.onChangeEntryName}
+          />
+          <input
+            required
+            type="email"
+            id="entryEmail"
+            className="entry-edit-form-input-email"
+            placeholder={eachEntry.email}
+            onChange={this.onChangeEntryEmail}
+          />
+          <input
+            required
+            type="text"
+            id="entryRole"
+            className="entry-edit-form-input-role"
+            placeholder={eachEntry.role}
+            onChange={this.onChangeEntryRole}
+          />
+          <div className="list-item-form-icons">
+            <button className="entry-edit-button" type="submit">
+              <FiUpload size="22px" color="#064635" />
+            </button>
+            <button
+              className="entry-delete-button"
+              type="button"
+              onClick={this.onClickDeleteButton}
+            >
+              <MdDeleteOutline size="22px" color="red" />
+            </button>
+          </div>
+        </form>
+        <hr className="entry-item-bottom-line" />
+      </li>
+    );
+  };
+
+  // Render Form To Update Any Entry
+  renderEntryListItem = () => {
     const { eachEntry, selectedEntries } = this.props;
     const isEntrySelected =
       selectedEntries.find((eachItem) => eachItem.id === eachEntry.id) !==
@@ -139,11 +153,17 @@ class EntriesListItem extends Component {
             checked={isEntrySelected}
             onChange={this.onChangeCheckBox}
           />
-          <p className="list-item-text">{eachEntry.name}</p>
-          <p className="list-item-text list-email-item">{eachEntry.email}</p>
-          <p className="list-item-text">{eachEntry.role}</p>
+          <p className="list-item-text-name">{eachEntry.name}</p>
+          <p className="list-item-text-email">{eachEntry.email}</p>
+          <p className="list-item-text-role">{eachEntry.role}</p>
           <div className="list-item-icons">
-            {this.renderPopup()}
+            <button
+              className="entry-edit-button"
+              type="button"
+              onClick={this.onClickEditEntryButton}
+            >
+              <AiOutlineForm size="18px" />
+            </button>
             <button
               className="entry-delete-button"
               type="button"
@@ -153,13 +173,18 @@ class EntriesListItem extends Component {
             </button>
           </div>
         </div>
-        <p className="small-bottom-email">
-          Email:{" "}
-          <span className="small-bottom-email-span">{eachEntry.email}</span>
-        </p>
         <hr className="entry-item-bottom-line" />
       </li>
     );
+  };
+
+  // Render Each Entry Or Each Entry Form
+  render() {
+    const { editEntryDetails } = this.state;
+    if (editEntryDetails) {
+      return this.renderEntryItemEditForm();
+    }
+    return this.renderEntryListItem();
   }
 }
 
