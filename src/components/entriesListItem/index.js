@@ -18,10 +18,12 @@ class EntriesListItem extends Component {
   // Function To Display Edit Entry Form, On Click Edit Entry Button...
   onClickEditEntryButton = () => {
     const { eachEntry } = this.props;
-    this.setState({ editEntryDetails: true });
-    alert(
-      `Click 'OK' Button To Edit The Entry With The Name '${eachEntry.name}'...`
+    const result = window.confirm(
+      `Do You Want To Start Editing The Entry With The Name '${eachEntry.name}'...`
     );
+    if (result) {
+      this.setState({ editEntryDetails: true });
+    }
   };
 
   // Edit The Entry By User - Storing Input Values Into State
@@ -35,9 +37,13 @@ class EntriesListItem extends Component {
       email: updatedEmail,
       role: updatedRole,
     };
-    onUpdateEntryDetails(eachEntry, updatedEntryDetails);
+    const result = window.confirm(
+      `Do You Want To Save The Changes To The Entry With Name: ${eachEntry.name}`
+    );
+    if (result) {
+      onUpdateEntryDetails(eachEntry, updatedEntryDetails);
+    }
     this.setState({ editEntryDetails: false });
-    alert("Click 'OK' Button To Save The Changes...");
   };
 
   // Storing User Entered Name Into State
@@ -58,8 +64,12 @@ class EntriesListItem extends Component {
   // Delete Specific Entry By Clicking  The Delete Icon
   onClickDeleteButton = () => {
     const { eachEntry, deleteEntry } = this.props;
-    alert(`Do You Want To Delete Entry With Name: ${eachEntry.name}`);
-    deleteEntry(eachEntry.id);
+    const result = window.confirm(
+      `Do You Want To Delete Entry With Name: ${eachEntry.name}`
+    );
+    if (result) {
+      deleteEntry(eachEntry.id);
+    }
   };
 
   // Select Or Unselect The Entry By Check Input By User
@@ -75,6 +85,7 @@ class EntriesListItem extends Component {
   // Render List Item With The Entry Details
   renderEntryItemEditForm = () => {
     const { eachEntry, selectedEntries } = this.props;
+    const { updatedName, updatedEmail, updatedRole } = this.state;
     const isEntrySelected =
       selectedEntries.find((eachItem) => eachItem.id === eachEntry.id) !==
       undefined;
@@ -95,10 +106,12 @@ class EntriesListItem extends Component {
           />
           <input
             required
+            autoFocus
             type="text"
             id="entryName"
             className="entry-edit-form-input-name"
             placeholder={eachEntry.name}
+            value={updatedName}
             onChange={this.onChangeEntryName}
           />
           <input
@@ -107,6 +120,7 @@ class EntriesListItem extends Component {
             id="entryEmail"
             className="entry-edit-form-input-email"
             placeholder={eachEntry.email}
+            value={updatedEmail}
             onChange={this.onChangeEntryEmail}
           />
           <input
@@ -115,6 +129,7 @@ class EntriesListItem extends Component {
             id="entryRole"
             className="entry-edit-form-input-role"
             placeholder={eachEntry.role}
+            value={updatedRole}
             onChange={this.onChangeEntryRole}
           />
           <div className="list-item-form-icons">
